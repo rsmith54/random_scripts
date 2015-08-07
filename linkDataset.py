@@ -16,6 +16,12 @@ parser.add_option("--overwriteLinks", help="Overwrite the existing links", defau
 datasetName = options.datasetName #'mc15_13TeV.361044.Sherpa_CT10_SinglePhotonPt70_140_BFilter.merge.DAOD_TRUTH1.e3587_p2375'
 taskId      = options.taskId
 if( not options.taskId ):
+    print "Checking rucio is configured"
+    if(not os.getenv('RUCIO_HOME')) :
+        print "You haven't configured rucio"
+        print "Either set up rucio or give the taskId for your dataset manually"
+        exit()
+
     rucioCall = 'rucio list-files ' + datasetName
     print "Running rucio to find taskId for the files in your dataset : " + datasetName
     print rucioCall
@@ -30,7 +36,7 @@ if( not options.taskId ):
     print matchingset
 
     if not matching :
-        print "your dataset seems to have no files according to rucio.  Check your dataset name or give your taskId as an argument and try again."
+        print "your dataset seems to have no files according to rucio.  Check your dataset name or give your taskId as an argument and try again"
         exit()
 
     print "Retrieving taskId from a member :"
