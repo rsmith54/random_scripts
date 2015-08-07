@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import os
+import subprocess
 from optparse import OptionParser
 
 parser = OptionParser()
@@ -9,15 +10,35 @@ parser.add_option("--taskId"        , help="taskId for your dataset"     , defau
 parser.add_option("--overwriteLinks", help="Overwrite the existing links", default=False)
 (options, args) = parser.parse_args()
 
-
 #set these here
 #todo set these command line
 
 datasetName = options.datasetName #'mc15_13TeV.361044.Sherpa_CT10_SinglePhotonPt70_140_BFilter.merge.DAOD_TRUTH1.e3587_p2375'
-taskId      = options.taskId      #'05969083'
+taskId      = options.taskId
+if( not options.taskId ):
+    rucioCall = 'rucio list-files ' + datasetName
+    print "Running rucio to find taskId for the files in your dataset : " + datasetName
+    print rucioCall
+
+    result = subprocess.check_output(rucioCall, shell=True)
+    print result
+    splitresult =  result.split()
+    matching  = [s for s in splitresult if "AOD"  in s]
+    matching += [s for s in splitresult if "DAOD" in s]
+    matchingset =  set(matching)
+    print "List of files in your dataset :"
+    print matchingset
+
+    if not matching :
+        print "your dataset seems to have no files according to rucio.  Check your dataset name or give your taskId as an argument and try again."
+        exit()
+
+    print "Retrieving taskId from a member :"
+    taskId = matchingset.pop().split(".")[1]
+    print "TaskId : " + taskId
 
 print "Dataset : " + datasetName
-print "TaskId  : "   + taskId
+print "TaskId  : " + taskId
 
 
 from glob import glob
