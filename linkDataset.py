@@ -10,11 +10,9 @@ parser.add_option("--taskId"        , help="taskId for your dataset"     , defau
 parser.add_option("--overwriteLinks", help="Overwrite the existing links", default=False)
 (options, args) = parser.parse_args()
 
-#set these here
-#todo set these command line
-
 datasetName = options.datasetName #'mc15_13TeV.361044.Sherpa_CT10_SinglePhotonPt70_140_BFilter.merge.DAOD_TRUTH1.e3587_p2375'
 taskId      = options.taskId
+
 if( not options.taskId ):
     print "Checking rucio is configured"
     if(not os.getenv('RUCIO_HOME')) :
@@ -26,7 +24,8 @@ if( not options.taskId ):
     print "Running rucio to find taskId for the files in your dataset : " + datasetName
     print rucioCall
 
-    result = subprocess.check_output(rucioCall, shell=True)
+    result = subprocess.Popen(rucioCall.split(), stdout=subprocess.PIPE).communicate()[0]
+
     print result
     splitresult =  result.split()
     matching  = [s for s in splitresult if "AOD"  in s]
