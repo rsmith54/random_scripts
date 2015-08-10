@@ -66,7 +66,7 @@ if options.overwriteLinks:
     shutil.rmtree(fullDatasetName, True)
 
 if os.path.isdir(fullDatasetName):
-    print "Your dataset already exists at :"
+    print "Your dataset already exists at : "
     print fullDatasetName
     print "Either delete it or use the --overwriteLinks option"
     exit()
