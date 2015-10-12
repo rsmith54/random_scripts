@@ -1,4 +1,5 @@
-import ROOT
+import rootpy.ROOT as ROOT
+#import ROOT
 
 import os
 from os import path
@@ -36,10 +37,11 @@ for ifile in files:
             totalEventCounter += nentries
             print nentries
 
-            # for entry in xrange(nentries):
-            #     tree.GetEntry(entry)
-            #     process = 'Processing run #%i, event #%i' % (tree.EventInfo.runNumber(), tree.EventInfo.eventNumber())
-            #     print(process)
+            for entry in xrange(nentries) :
+                tree.GetEntry(entry)
+                process = 'Processing run #%i, event #%i' % (tree.EventInfo.runNumber(), tree.EventInfo.eventNumber())
+                print(process)
+
 
 
         rootfile.Close()
