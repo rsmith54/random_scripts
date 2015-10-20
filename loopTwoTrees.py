@@ -1,4 +1,5 @@
 import rootpy.ROOT as ROOT
+import rootpy.stl as stl
 from rootpy.io import root_open
 #import rootpy.numpy
 import root_numpy as rnp
@@ -17,9 +18,11 @@ ROOT.gROOT.ProcessLine(lineLoadPackages)
 
 # Initialize the xAOD infrastructure
 ROOT.xAOD.Init()
+ROOT.gStyle.SetOptStat(0)
 
 #files = [f for f in os.listdir(".") if os.path.isfile(f)]
-files = ["ttbar_alljet.root", "ttbar_tenjet.root"]
+files = ["/afs/cern.ch/work/r/rsmith/ttbar_trigger/ttbar_alljet.root",
+         "/afs/cern.ch/work/r/rsmith/ttbar_trigger/ttbar_tenjet.root"]
 
 print files
 
@@ -39,31 +42,38 @@ trees = {files[0] : rootfile[files[0]].PassThroughNT,
 # nentries = tree.GetEntries()
 # totalEventCounter += nentries
 # print nentries
+#vecFloatCreator = stl.vector(float)
 
-for entry in xrange(trees[files[0]].GetEntries()) :
-    if(entry % 10000 == 0 ) : print entry
-    mDeltaR_tenVsAll = ROOT.Hist2D(100, 0, 3000, 100, 0, 3000, type='F')
-    for tree in trees.itervalues() :
-        tree.GetEntry(entry)
+
+mDeltaR_allVsTen = {
+   5  :  ROOT.Hist2D( 50, 0, 1000, 50, 0, 1000, name="mDeltaR_allVsTen_GT_5jets", title="mDeltaR_allVsTen_GT_5jets"),
+   7  :  ROOT.Hist2D( 50, 0, 1000, 50, 0, 1000, name="mDeltaR_allVsTen_GT_7jets", title="mDeltaR_allVsTen_GT_7jets"),
+   10 :  ROOT.Hist2D( 50, 0, 1000, 50, 0, 1000, name="mDeltaR_allVsTen_GT_10jets", title="mDeltaR_allVsTen_GT_10jets"),
+}
+
+njet = ROOT.Hist( 15 , -.5 , 14.5, name = "njet" )
+counter = 0
+
+for entry in trees[files[0]] :
+    trees[files[1]].GetEntry(counter)#update the other one too
+    if(counter % 10000 == 0 ) : print counter
+    if(counter > 300000 ) : break
+    counter += 1
+
+    # jetPtVec = trees[files[0]].jetPt# vecFloatCreator()
+    nhltjet = trees[files[0]].GetLeaf("nHLTJets").GetValue(0)
+    njet.Fill(nhltjet)
 
     mDeltaR = {}
     for ifile in files :
-        mDeltaR[ifile] = trees[ifile].GetLeaf("RJVars_PP_MDeltaR").GetValue(0)
+        mDeltaR[ifile] = trees[ifile].GetLeaf("RJVars_PP_MDeltaR").GetValue(0)/1000.
 
+    for  njetcut in mDeltaR_allVsTen.keys() :
+#        if jetPtVec.size() > njetcut :
+        if nhltjet > njetcut :
+            mDeltaR_allVsTen[njetcut].Fill(mDeltaR[files[0]] , mDeltaR[files[1]])
 
-#    print mDeltaR
-    mDeltaR_tenVsAll.Fill(mDeltaR[files[0]] , mDeltaR[files[1]])
-            # for entry in xrange(nentries):
-            #     tree.GetEntry(entry)
-            #     process = 'Processing run #%i, event #%i' % (tree.EventInfo.runNumber(), tree.EventInfo.eventNumber())
-            #     print(process)
-
-
-outfile = root_open("outfile.root" , "recreate")
-mDeltaR_tenVsAll.Write()
+outfile = root_open("outfile_ttbar_doubleloop.root", "recreate")
+for hist in mDeltaR_allVsTen.values() :
+    hist.Write()
 outfile.Close()
-for ifile in rootfile.itervalues() :
-    ifile.Close()
-
-
-print "Total number of events in the sample:" , totalEventCounter
