@@ -77,7 +77,7 @@ def main(args):
     subs[-1].set_defaults(func=lambda args: apply_each(retry_job, args, status='finished'))
 
     subs.append(subparsers.add_parser('kill', help='Kill running jobs.'))
-    subs[-1].set_defaults(func=lambda args: apply_each(kill_job, args, status='running'))
+    subs[-1].set_defaults(func=lambda args: apply_each(kill_job, args, status=['running','scouting','ready','defined']))
 
     subs.append(subparsers.add_parser('download', help='Download jobs marked "done" using rucio.'))
     subs[-1].set_defaults(func=lambda args: apply_each(download_job, args, status=['finished','running','done']))
