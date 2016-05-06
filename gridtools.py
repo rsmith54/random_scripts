@@ -63,7 +63,7 @@ def download_job(job):
         download(ds)
 
 def print_job(job):
-    print bcolors.LIGHT + bcolors.BOLD + job.jediTaskID + bcolors.ENDC + job.Name
+    print bcolors.LIGHT + bcolors.BOLD + job.jediTaskID + bcolors.ENDC + job.jobName
     print "    ", job.inDS
     print "    ", job.outDS
 
