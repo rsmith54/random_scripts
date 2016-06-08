@@ -44,7 +44,7 @@ def apply_each(func, args, status='finished'):
             continue
         job = pbook.getJobInfo(jobid)
         if not job: continue
-        if args.match in job.jobName and re.match(args.regex, job.jobName) and jobid >= args.jobID :
+        if args.match in job.jobName and re.match(args.regex, job.jobName) and (int(jobid) >= int(args.minJobId)):
             func(job)
 
 def retry_job(job):
@@ -90,7 +90,7 @@ def main(args):
         p.add_argument('--history', default=7, type=int, help='How far back in the history to check for jobs.')
         p.add_argument('--match', default='', help='Apply subcommand to jobs which contain this string.')
         p.add_argument('--regex', default='.*', help='Apply subcommand to jobs which match this regex.')
-        p.add_argument('--minJobID', default='-1', help='Apply subcommand to jobs with jobID greater than or equal to this integer')
+        p.add_argument('--minJobId', default='-1', help='Apply subcommand to jobs with jobID greater than or equal to this integer')
 
     args = parser.parse_args(args)
     args.func(args)
