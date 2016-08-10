@@ -1,7 +1,7 @@
 import random
 
-#pick a fake random seed from my mind
-random.seed(900)
+#Use the rng seed from Ryne
+random.seed(82266282)
 
 #first, figure out which women's kayaker to use
 #Based on this list :
