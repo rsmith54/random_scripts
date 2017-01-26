@@ -1,0 +1,12 @@
+[user]
+	name = Russell Smith
+	email = rsmith@cern.ch
+[core]
+	editor = emacs
+[push]
+	default = simple
+[alias]
+	st = status
+  	ci = commit
+  	br = branch
+  	co = checkout
