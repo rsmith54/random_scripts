@@ -291,7 +291,7 @@ installRpackages()
 	echo "Installing official R packages"
 	echo "-------------------------------------------------------"
 
-	Rscript -e "install.packages('lubridate', 'tidyverse', 'stringr', 'optparse', dependencies = TRUE)" 2>&1 >> /tmp/rpackages_inst.log
+	Rscript --no-save --no-restore -e 'install.packages("lubridate", "tidyverse", "stringr", "optparse", dependencies = TRUE)' 2>&1 >> /tmp/rpackages_inst.log
 #	R --no-save --no-restore -q -e 'options(mds.telemetry=0);d=rxDataStep(iris)'  2>&1 >> /tmp/rtest_inst.log
 	if [ $? -eq 0 ]
 	then
