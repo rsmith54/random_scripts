@@ -52,52 +52,7 @@ start()
 {
 	SECONDS=0
 
-	executor downloadHelper
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor downloadMRS
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor installMRS
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor createSymbolLinkForDeployR
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor configureRWithJava
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor updateDependencies
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor configureSSHUser
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor removeTempFiles
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor testR
-	if [[ $? -ne 0 ]]; then return 1; fi
-
 	executor installRpackages
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor determineNodeType
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor setupTelemetry
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor setupHealthProbe
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor writeClusterDefinition
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor installAzureMLRPackage
-	if [[ $? -ne 0 ]]; then return 1; fi
-
-	executor autoSparkSetting
 	if [[ $? -ne 0 ]]; then return 1; fi
 
 	echo "Total elapsed time = $SECONDS seconds" | tee -a $ELAPSED_TIME_LOG
