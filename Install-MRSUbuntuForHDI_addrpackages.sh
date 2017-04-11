@@ -79,6 +79,9 @@ start()
 	executor testR
 	if [[ $? -ne 0 ]]; then return 1; fi
 
+	executor installRpackages
+	if [[ $? -ne 0 ]]; then return 1; fi
+
 	executor determineNodeType
 	if [[ $? -ne 0 ]]; then return 1; fi
 
