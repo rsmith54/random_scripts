@@ -100,3 +100,14 @@
           (ess-fl-keyword:delimiters . t)
           (ess-fl-keyword:= . t)
           (ess-R-fl-keyword:F&T . t)))
+
+(ess-toggle-underscore nil)
+
+
+(require 'package)
+(add-to-list 'package-archives
+             '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+
+(package-initialize)
+(elpy-enable)
+(delete `elpy-module-highlight-indentation elpy-modules)
