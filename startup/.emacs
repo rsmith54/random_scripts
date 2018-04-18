@@ -32,6 +32,9 @@
     (interactive "*")
     (uniquify-all-lines-region (point-min) (point-max)))
 
+(require 'which-func)
+(which-function-mode t)
+
 (global-font-lock-mode 1)
 
 ;; Align with spaces only
