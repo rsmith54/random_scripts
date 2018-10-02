@@ -29,3 +29,4 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias where='type -a'
 alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
+alias ppjson="python -m json.tool"
