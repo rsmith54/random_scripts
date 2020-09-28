@@ -1,6 +1,6 @@
 [user]
 	name = Russell Smith
-	email = rsmith@cern.ch
+	email = russellwsmith54@gmail.com
 [core]
 	editor = emacs
 [push]
@@ -10,3 +10,5 @@
   	ci = commit
   	br = branch
   	co = checkout
+[credential]
+	helper = cache --timeout=10000

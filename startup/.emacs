@@ -74,43 +74,11 @@
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 (el-get 'sync)
 
-(require 'ess-site)
-(setq ess-R-font-lock-keywords
-        '((ess-R-fl-keyword:modifiers . t) ; default
-          (ess-R-fl-keyword:fun-defs . t) ; default
-          (ess-R-fl-keyword:keywords . t) ; default
-          (ess-R-fl-keyword:assign-ops . t) ; default
-          (ess-R-fl-keyword:constants . t) ; default
-          (ess-fl-keyword:fun-calls . t)
-          (ess-fl-keyword:numbers . t)
-          (ess-fl-keyword:operators . t)
-          (ess-fl-keyword:delimiters . t)
-          (ess-fl-keyword:= . t)
-          (ess-R-fl-keyword:F&T . t)))
-
-(setq inferior-R-font-lock-keywords
-        '((ess-S-fl-keyword:prompt . t) ; default
-          (ess-R-fl-keyword:messages . t) ; default
-          (ess-R-fl-keyword:modifiers . t) ; default
-          (ess-R-fl-keyword:fun-defs . t) ; default
-          (ess-R-fl-keyword:keywords . t) ; default
-          (ess-R-fl-keyword:assign-ops . t) ; default
-          (ess-R-fl-keyword:constants . t) ; default
-          (ess-fl-keyword:matrix-labels . t) ; default
-          (ess-fl-keyword:fun-calls . t)
-          (ess-fl-keyword:numbers . t)
-          (ess-fl-keyword:operators . t)
-          (ess-fl-keyword:delimiters . t)
-          (ess-fl-keyword:= . t)
-          (ess-R-fl-keyword:F&T . t)))
-
-(ess-toggle-underscore nil)
-
-
 (require 'package)
 (add-to-list 'package-archives
              '("elpy" . "https://jorgenschaefer.github.io/packages/"))
 
-(package-initialize)
-(elpy-enable)
-(delete `elpy-module-highlight-indentation elpy-modules)
+;(package-initialize)
+;(elpy-enable)
+;(delete `elpy-module-highlight-indentation elpy-modules)
+(put 'downcase-region 'disabled nil)

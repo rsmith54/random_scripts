@@ -1,3 +1,6 @@
+
+eval "$(lua /usr/bin/z.lua/z.lua --init bash)"
+
 export HISTIGNORE="&:ls:[bf]g:exit"
 export HISTFILE="${HOME}/.bash_history"
 export HISTFILESIZE=1000000000
@@ -28,5 +31,6 @@ set show-all-if-unmodified on
 alias rm='rm -i'
 alias mv='mv -i'
 alias where='type -a'
-alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
 alias ppjson="python -m json.tool"
+
+cd ~/rsmith_home/
